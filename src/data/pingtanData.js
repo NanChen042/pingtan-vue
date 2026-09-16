@@ -55,10 +55,10 @@ export const TRAVEL_MODES = {
 
 // 推荐各路段默认交通工具
 export const RECOMMENDED_TRAVEL_MODES = {
-  d1: ['taxi', 'ebike', 'taxi'],
-  d2: ['taxi', 'ebike', 'taxi', 'taxi'],
-  d3: ['taxi', 'taxi', 'taxi', 'taxi'],
-  d4: ['walking', 'taxi']
+  d1: ['taxi', 'ebike', 'taxi', 'taxi'],
+  d2: ['taxi', 'ebike', 'taxi', 'taxi', 'taxi'],
+  d3: ['taxi', 'taxi', 'taxi', 'taxi', 'taxi'],
+  d4: ['walking', 'taxi', 'taxi']
 };
 
 // 预算与成团方案 (推荐按 3人/车 组队出行，多人出行拆车等价)
@@ -93,7 +93,7 @@ export const DAILY_ROUTES = {
     title: '抵岛·入住·龙凤头·团建晚餐',
     dateBadge: '9/17 周四',
     color: '#4f46e5',
-    stats: '4个节点 · 实时驾车规划',
+    stats: '5大节点 · 往返闭环规划',
     desc: '平潭站接驾 ➔ 全季酒店换装入住 ➔ 龙凤头海滩漫步 ➔ 君山镇【岭上·海岛菜】团建晚餐 ➔ 夜间返回全季酒店。',
     center: [119.805, 25.545],
     zoom: 12,
@@ -140,7 +140,18 @@ export const DAILY_ROUTES = {
         desc: '君山镇北岚岭64号。观海露台品尝地道海岛海鲜大餐，20:30拼车返回全季酒店休息，Day 1 圆满闭环。',
         icon: '🦀',
         badge: '晚餐',
-        transitToNext: '🏨 晚餐后拼打车返回全季酒店休息（约32分钟）'
+        transitToNext: '🚗 晚餐后拼打车 32分钟 · 返回全季酒店'
+      },
+      {
+        id: 'd1-4',
+        name: '全季酒店（夜间返程大本营）',
+        shortName: '全季返程',
+        coord: [119.795836, 25.487159],
+        tag: '大本营闭环 · 21:15',
+        desc: '海鲜晚宴后拼打车返回全季酒店休息整备，交流团建见闻，养足精神迎接 Day 2 北线风车大片之旅。',
+        icon: '🏨',
+        badge: '闭环',
+        transitToNext: '🏁 Day 1 行程圆满闭环，回房洗漱休息'
       }
     ]
   },
@@ -150,7 +161,7 @@ export const DAILY_ROUTES = {
     title: '北线山海精华（风车·海蚀·落日）',
     dateBadge: '9/18 周五',
     color: '#0284c7',
-    stats: '5大景点 · 约74.1km · 环岛精华',
+    stats: '6大节点 · 约74.1km · 环岛闭环',
     desc: '全季酒店出发 ➔ 仙人井海蚀竖井 ➔ 北港文创村午餐 ➔ 镜沙黑石滩 ➔ 北部生态廊道F3 ➔ 长江澳风车落日 ➔ 返酒店。',
     center: [119.810, 25.590],
     zoom: 12,
@@ -208,7 +219,18 @@ export const DAILY_ROUTES = {
         desc: '17:15-18:45。落日退潮滩涂如天空之镜。⚠️ 18:30必须提前在滴滴约车返城关吃晚餐并返回全季酒店休息，完成 Day 2 闭环。',
         icon: '🌅',
         badge: '高光',
-        transitToNext: '🏨 提前约网约车返回全季酒店休息（约35分钟）'
+        transitToNext: '🚗 提前约网约车 35分钟 · 返回全季酒店'
+      },
+      {
+        id: 'd2-6',
+        name: '全季酒店（夜间返程大本营）',
+        shortName: '全季返程',
+        coord: [119.795836, 25.487159],
+        tag: '大本营闭环 · 19:30',
+        desc: '长江澳落日后提前滴滴约车返回全季酒店（车程约35分钟），晚上可在酒店周边或外卖享用平潭海鲜夜宵，备战 Day 3 南线。',
+        icon: '🏨',
+        badge: '闭环',
+        transitToNext: '🏁 Day 2 北线圆满闭环，回房洗漱休息'
       }
     ]
   },
@@ -218,7 +240,7 @@ export const DAILY_ROUTES = {
     title: '南线地标与白沙（灯塔·栈桥·白沙滩）',
     dateBadge: '9/19 周六',
     color: '#059669',
-    stats: '5大景点 · 约50.9km · 碧海白沙',
+    stats: '6大节点 · 约50.9km · 碧海白沙闭环',
     desc: '晨间龙王头日出 ➔ 全季早餐休整 ➔ 猴研岛68海里距台最近点 ➔ 澳前海鲜 ➔ 大福湾白长桥 ➔ 坛南湾 ➔ 潮汕牛肉火锅。',
     center: [119.815, 25.465],
     zoom: 12,
@@ -276,7 +298,18 @@ export const DAILY_ROUTES = {
         desc: '14:45-17:30。平潭沙质最细腻海滩，脱鞋踩浪，喝沙滩咖啡发呆看海。结束后打车回城关吃【毛记潮汕牛肉火锅】，夜间返回全季酒店休息，完成 Day 3 闭环。',
         icon: '🏖️',
         badge: '终点',
-        transitToNext: '🏨 晚餐后打车返回全季酒店休息（约18分钟）'
+        transitToNext: '🚗 晚餐后打车 18分钟 · 返回全季酒店'
+      },
+      {
+        id: 'd3-7',
+        name: '全季酒店（夜间返程大本营）',
+        shortName: '全季返程',
+        coord: [119.795836, 25.487159],
+        tag: '大本营闭环 · 20:30',
+        desc: '坛南湾游览及城关潮汕牛肉火锅晚餐后，拼车返回全季酒店休息整备，整理打包行李，备战次日早市与返程。',
+        icon: '🏨',
+        badge: '闭环',
+        transitToNext: '🏁 Day 3 南线圆满闭环，回房休整收拾行李'
       }
     ]
   },
@@ -286,7 +319,7 @@ export const DAILY_ROUTES = {
     title: '老城早市·伴手礼·平潭站返程',
     dateBadge: '9/20 周日',
     color: '#d97706',
-    stats: '3大节点 · 约17.8km · 满载而归',
+    stats: '4大节点 · 约17.8km · 满载而归',
     desc: '海坛中路传统早市 ➔ 采购免洗头水紫菜 ➔ 10:25全季退房打车 ➔ 10:50前平潭站进站（11:43发车）。',
     center: [119.788, 25.522],
     zoom: 13,
@@ -311,7 +344,18 @@ export const DAILY_ROUTES = {
         desc: '09:45-10:20。平价选购平潭免洗头水紫菜、小丁香鱼干、虾皮，比景区便宜30%-50%。采购后回全季酒店取行李、10:25准时退房打车。',
         icon: '🛍️',
         badge: '伴手礼',
-        transitToNext: '🚗 回酒店取行李退房后打车赴车站（约20分钟）'
+        transitToNext: '🚗 打车 10分钟 · 回酒店取行李退房'
+      },
+      {
+        id: 'd4-3',
+        name: '全季酒店（退房取行李）',
+        shortName: '全季退房',
+        coord: [119.795836, 25.487159],
+        tag: '大本营退房 · 10:25',
+        desc: '早市与特产采购后打车回全季酒店取寄存行李，10:25准时前台办理退房，拼车赶赴平潭高铁站。',
+        icon: '🏨',
+        badge: '退房',
+        transitToNext: '🚗 拼打车 23分钟 · 赴平潭站进站'
       },
       {
         id: 'd4-4',

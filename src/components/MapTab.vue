@@ -80,7 +80,7 @@
           <span class="whitespace-nowrap">全天总览</span>
         </button>
 
-        <!-- 各站点 Chips -->
+        <!-- 各站点 Chips (包含各景点及回酒店闭环节点) -->
         <button
           v-for="(spot, idx) in currentDayData.spots"
           :key="spot.id || idx"
@@ -111,7 +111,7 @@
           </h3>
         </div>
         <span class="text-xs font-bold px-2 py-0.5 rounded-full text-sky-700 bg-sky-50 border border-sky-200 shrink-0">
-          全天共 {{ currentDayData.spots.length }} 站
+          全天 {{ currentDayData.spots.length }} 个节点 · 往返闭环
         </span>
       </div>
 
@@ -129,7 +129,7 @@
       <!-- 动线打卡节点流 (点击任意站即可切换查看该段路线) -->
       <div>
         <div class="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
-          <span>🎯 当日动线节点（点击任意站看单段接驳）:</span>
+          <span>🎯 当日动线闭环序列（点击任意站看单段接驳）:</span>
         </div>
         <div class="grid grid-cols-1 gap-1.5">
           <div
@@ -254,13 +254,13 @@
         </div>
       </div>
 
-      <!-- 终点站提示 (到达当天最后一站) -->
+      <!-- 终点站/返程闭环提示 (到达当天最后一站) -->
       <div v-else class="text-xs text-emerald-800 font-medium flex items-center gap-1.5 bg-emerald-50/90 p-2.5 rounded-xl border border-emerald-200">
         <span class="text-base">🏁</span>
         <div class="leading-relaxed">
-          <div class="font-bold">当日游玩动线已到终点站</div>
+          <div class="font-bold">当日游玩动线已圆满闭环</div>
           <div class="text-[11px] text-emerald-700 mt-0.5">
-            {{ activeSpot?.transitToNext || '游览结束后拼车返回全季酒店休息整备，完成全天闭环。' }}
+            {{ activeSpot?.transitToNext || '全天行程圆满收官，晚间在全季酒店休息整备。' }}
           </div>
         </div>
       </div>
@@ -306,10 +306,10 @@ import {
 import closedLoopPaths from '../data/closed_loop_paths.json';
 
 const daysList = [
-  { id: 'd1', label: 'Day 1', theme: '抵岛团建', summary: '高铁➔龙凤头➔海岛菜', color: '#4f46e5' },
-  { id: 'd2', label: 'Day 2', theme: '北线风车', summary: '仙人井➔环岛➔落日', color: '#0284c7' },
-  { id: 'd3', label: 'Day 3', theme: '南线地标', summary: '日出➔68海里➔白沙', color: '#059669' },
-  { id: 'd4', label: 'Day 4', theme: '早市返程', summary: '早市➔特产➔车站', color: '#d97706' }
+  { id: 'd1', label: 'Day 1', theme: '抵岛团建', summary: '高铁➔龙凤头➔海岛菜➔返酒店', color: '#4f46e5' },
+  { id: 'd2', label: 'Day 2', theme: '北线风车', summary: '仙人井➔环岛➔落日➔返酒店', color: '#0284c7' },
+  { id: 'd3', label: 'Day 3', theme: '南线地标', summary: '日出➔68海里➔白沙➔返酒店', color: '#059669' },
+  { id: 'd4', label: 'Day 4', theme: '早市返程', summary: '早市➔特产➔退房➔高铁站', color: '#d97706' }
 ];
 
 const currentDayKey = ref('d1');
@@ -354,7 +354,12 @@ function isValidCoord(coord) {
   return Array.isArray(coord) && coord.length >= 2 && Number.isFinite(coord[0]) && Number.isFinite(coord[1]);
 }
 
-// 初始化高德地图 (极简纯净，移除桌面端 ToolBar 放大缩小控件)
+function isHotelCoord(coord) {
+  if (!isValidCoord(coord)) return false;
+  return Math.hypot(coord[0] - VERIFIED_HOTEL_COORD[0], coord[1] - VERIFIED_HOTEL_COORD[1]) < 0.0005;
+}
+
+// 初始化高德地图 (纯净 2D 平面视角，彻底锁定禁止旋转与俯仰，修复移动端双指缩放旋转的 Bug)
 function initMap() {
   if (typeof window.AMap === 'undefined') return;
   if (amapInstance) return;
@@ -366,8 +371,15 @@ function initMap() {
     amapInstance = new window.AMap.Map('amap-vue-container', {
       zoom: PINGTAN_ZOOM,
       center: PINGTAN_CENTER,
-      viewMode: '3D',
-      pitch: 20,
+      viewMode: '2D',          // 纯净平面视角，杜绝透视形变
+      pitch: 0,                // 俯仰角度锁死 0 度
+      rotation: 0,             // 正北朝上
+      rotateEnable: false,     // 彻底禁止地图旋转！彻底解决移动端双指缩放旋转的 Bug
+      pitchEnable: false,      // 彻底禁止倾斜
+      touchZoomRotate: false,  // 彻底禁止双指缩放联动旋转
+      touchZoom: true,         // 允许双指放大缩小
+      dragEnable: true,        // 允许单指平移
+      zoomEnable: true,        // 允许缩放
       mapStyle: 'amap://styles/fresh'
     });
 
@@ -376,6 +388,8 @@ function initMap() {
     }
 
     amapInstance.on('complete', () => {
+      amapInstance.setRotation(0);
+      amapInstance.setPitch(0);
       handleDaySelect(currentDayKey.value);
     });
 
@@ -391,6 +405,8 @@ function ensureMapInit() {
   } else {
     nextTick(() => {
       amapInstance.resize();
+      amapInstance.setRotation(0);
+      amapInstance.setPitch(0);
       if (currentSpotIndex.value === -1) {
         fitCurrentDayViewport();
       } else if (segmentPolyline) {
@@ -400,7 +416,34 @@ function ensureMapInit() {
   }
 }
 
-// 绘制大本营及当天所有打卡点 Marker
+// 动态构建酒店大本营 Marker HTML (支持高亮激活状态与默认黑金底色)
+function createHotelMarkerHtml(isActive, label) {
+  if (isActive) {
+    return `
+      <div class="custom-amap-marker marker-active" style="color: #ea580c; z-index: 999;">
+        <div class="marker-badge-bubble active-highlight flex items-center gap-1 font-bold" style="background: linear-gradient(135deg, #f97316, #ea580c); color: #ffffff; border: 2.5px solid #ffffff; padding: 3px 9px; box-shadow: 0 0 0 3.5px rgba(249, 115, 22, 0.45), 0 8px 18px rgba(0, 0, 0, 0.35); transform: scale(1.15);">
+          <span>🏨</span>
+          <span style="font-size: 12px; font-weight: 800;">${label || '全季酒店(大本营)'}</span>
+          <span style="width: 6px; height: 6px; border-radius: 999px; background: #ffffff; margin-left: 2px; display: inline-block;"></span>
+        </div>
+        <div class="marker-pin-tip" style="border-top-color: #ea580c; border-width: 7px 5px 0 5px;"></div>
+        <div class="marker-pin-shadow" style="width: 10px; height: 10px;"></div>
+      </div>
+    `;
+  }
+  return `
+    <div class="custom-amap-marker" style="color: #1e293b; z-index: 150;">
+      <div class="marker-badge-bubble shadow-md flex items-center gap-1 font-bold" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: #ffffff; border: 1.5px solid #fbbf24; padding: 2.5px 8px;">
+        <span>🏨</span>
+        <span style="font-size: 10px; color: #fef08a;">全季酒店(大本营)</span>
+      </div>
+      <div class="marker-pin-tip" style="border-top-color: #0f172a;"></div>
+      <div class="marker-pin-shadow"></div>
+    </div>
+  `;
+}
+
+// 绘制大本营及当天打卡点 Marker
 function renderDayMarkers(dayKey) {
   if (!amapInstance) return;
   const route = DAILY_ROUTES[dayKey];
@@ -418,37 +461,31 @@ function renderDayMarkers(dayKey) {
     hotelMarker = null;
   }
 
-  // 绘制大本营据点：全季酒店 (专属黑金色图钉)
-  const hotelHtml = `
-    <div class="custom-amap-marker" style="color: #1e293b; z-index: 120;">
-      <div class="marker-badge-bubble shadow-md flex items-center gap-1 font-bold" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: #ffffff; border: 1.5px solid #fbbf24; padding: 2px 8px;">
-        <span>🏨</span>
-        <span style="font-size: 10px; color: #fef08a;">全季酒店(大本营)</span>
-      </div>
-      <div class="marker-pin-tip" style="border-top-color: #0f172a;"></div>
-      <div class="marker-pin-shadow"></div>
-    </div>
-  `;
+  // 1. 绘制大本营据点：全季酒店 (专属黑金色图钉，点击联动选择酒店节点)
   hotelMarker = new window.AMap.Marker({
     position: VERIFIED_HOTEL_COORD,
-    content: hotelHtml,
+    content: createHotelMarkerHtml(false),
     anchor: 'bottom-center',
     offset: new window.AMap.Pixel(0, 0),
-    zIndex: 120
+    zIndex: 150
   });
   hotelMarker.on('click', () => {
-    segmentStatusText.value = '🏨 全季酒店（平潭红湖东路32号）：团队唯一核心驻地大本营';
-    amapInstance.panTo(VERIFIED_HOTEL_COORD);
+    // 点击酒店图钉优先定位至当天的返程闭环节点（或首个酒店节点）
+    const hotelIdx = route.spots.findIndex(s => isHotelCoord(s.coord));
+    if (hotelIdx >= 0) {
+      handleSpotSelect(hotelIdx);
+    } else {
+      segmentStatusText.value = '🏨 全季酒店（平潭红湖东路32号）：团队唯一核心驻地大本营';
+      amapInstance.panTo(VERIFIED_HOTEL_COORD);
+    }
   });
   amapInstance.add(hotelMarker);
 
-  // 绘制景点 Marker
+  // 2. 绘制非酒店打卡点 Marker (酒店坐标由 hotelMarker 统领，避免图钉重叠)
   const defaultColor = route.color || '#0284c7';
   route.spots.forEach((spot, idx) => {
     if (!isValidCoord(spot.coord)) return;
-
-    const isHotelCoord = Math.hypot(spot.coord[0] - VERIFIED_HOTEL_COORD[0], spot.coord[1] - VERIFIED_HOTEL_COORD[1]) < 0.0001;
-    if (isHotelCoord) return;
+    if (isHotelCoord(spot.coord)) return;
 
     const isActive = idx === currentSpotIndex.value;
     const markerHtml = createMarkerHtml(spot, idx, isActive, defaultColor);
@@ -470,7 +507,7 @@ function renderDayMarkers(dayKey) {
   });
 }
 
-// 绘制全天闭环动线折线
+// 绘制全天闭环动线折线 (包含起程与夜间返回全季酒店的完整闭环)
 function renderFullDayPolyline(dayKey) {
   if (!amapInstance) return;
 
@@ -538,22 +575,33 @@ function createMarkerHtml(spot, idx, isActive, defaultColor) {
 
 // 动态更新 Marker 高亮状态 (activeIdx 为 -1 时全部不高亮)
 function updateSpotMarkersHighlight(activeIdx) {
-  if (!amapInstance || !currentMarkers.length) return;
+  if (!amapInstance) return;
   const route = currentDayData.value;
   if (!route) return;
 
   const defaultColor = route.color || '#0284c7';
 
+  // 1. 更新景点 Markers
   currentMarkers.forEach(({ marker, spot, idx }) => {
     const isActive = idx === activeIdx;
     marker.setContent(createMarkerHtml(spot, idx, isActive, defaultColor));
     marker.setzIndex(isActive ? 999 : 100 + idx);
   });
+
+  // 2. 更新酒店大本营 Marker (若当前选中的是酒店节点，点亮酒店大本营图钉)
+  if (hotelMarker) {
+    const activeSpotItem = activeIdx >= 0 ? route.spots[activeIdx] : null;
+    const isHotelActive = activeSpotItem && isHotelCoord(activeSpotItem.coord);
+    hotelMarker.setContent(createHotelMarkerHtml(isHotelActive, activeSpotItem?.shortName));
+    hotelMarker.setzIndex(isHotelActive ? 999 : 150);
+  }
 }
 
-// 聚焦当天全景视野 (包含全部景点与全天闭环折线)
+// 聚焦当天全景视野 (包含全部打卡点、大本营与全天闭环折线)
 function fitCurrentDayViewport() {
   if (!amapInstance) return;
+  amapInstance.setRotation(0);
+  amapInstance.setPitch(0);
   const overlays = currentMarkers.map(item => item.marker).filter(Boolean);
   if (currentPolyline) overlays.push(currentPolyline);
   if (hotelMarker) overlays.push(hotelMarker);
@@ -567,6 +615,8 @@ function fitCurrentDayViewport() {
 // 聚焦当前单分支路线视野
 function fitBranchViewport() {
   if (!amapInstance) return;
+  amapInstance.setRotation(0);
+  amapInstance.setPitch(0);
   if (segmentPolyline) {
     amapInstance.setFitView([segmentPolyline], false, [50, 40, 40, 40]);
   } else if (activeSpot.value && isValidCoord(activeSpot.value.coord)) {
@@ -577,6 +627,8 @@ function fitBranchViewport() {
 // 呈现平潭县全县轮廓
 function fitPingtanCounty() {
   if (!amapInstance) return;
+  amapInstance.setRotation(0);
+  amapInstance.setPitch(0);
   try {
     const bounds = new window.AMap.Bounds(PINGTAN_BOUNDS[0], PINGTAN_BOUNDS[1]);
     amapInstance.setBounds(bounds);
@@ -588,6 +640,8 @@ function fitPingtanCounty() {
 
 function focusHotelBasecamp() {
   if (!amapInstance) return;
+  amapInstance.setRotation(0);
+  amapInstance.setPitch(0);
   amapInstance.setCenter(VERIFIED_HOTEL_COORD);
   amapInstance.setZoom(15);
   segmentStatusText.value = '🏨 全季酒店（平潭红湖东路32号）：团队大本营驻地';
@@ -602,7 +656,7 @@ function handleDaySelect(dayId) {
   showFullDayOverview();
 }
 
-// 显示全天动线全貌
+// 显示全天动线全貌 (往返闭环全览)
 function showFullDayOverview() {
   currentSpotIndex.value = -1;
   segmentStatusText.value = '';
@@ -627,7 +681,7 @@ function handleSpotSelect(idx) {
   updateSpotMarkersHighlight(idx);
   scrollChipIntoView(idx);
 
-  // 关键控制：彻底移除全天动线，使地图纯净聚焦当前分支！
+  // 关键控制：彻底移除全天动线，使地图纯净聚焦当前单分支！
   if (currentPolyline && amapInstance) {
     amapInstance.remove(currentPolyline);
     currentPolyline = null;
@@ -649,7 +703,7 @@ function handleSpotSelect(idx) {
       amapInstance.panTo(spot.coord);
     }
     if (!next) {
-      segmentStatusText.value = `🏁 ${spot.name}：当日最后一站，行程圆满收官`;
+      segmentStatusText.value = `🏁 ${spot.name}：当日行程圆满闭环，回全季酒店休息整备`;
     }
   }
 }
@@ -737,6 +791,8 @@ async function loadRouteLeg(modeKey, from, to, fromIdx) {
         zIndex: 70
       });
       amapInstance.add(segmentPolyline);
+      amapInstance.setRotation(0);
+      amapInstance.setPitch(0);
       amapInstance.setFitView([segmentPolyline], false, [50, 40, 40, 40]);
     }
 

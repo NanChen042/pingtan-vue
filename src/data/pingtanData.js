@@ -100,6 +100,12 @@ export const DAILY_ROUTES = {
     spots: [
       {
         id: 'd1-0',
+        photos: [
+          'https://store.is.autonavi.com/showpic/1119fea3577146440000002536416924?type=pic',
+          'https://store.is.autonavi.com/showpic/1c67aec9de1b0c6cbd38053297e1a7d7',
+          'https://store.is.autonavi.com/showpic/ac5c6bf7f7e291dc0000003072426325?type=pic',
+          'https://aos-comment.amap.com/B0H6DM73TV/comment/content_media_external_images_media_2255_ss__1765887027504_93303404.jpg'
+        ],
         name: '平潭站（网约车上车点）',
         shortName: '平潭站',
         coord: [119.779869, 25.546817],
@@ -111,6 +117,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd1-1',
+        photos: [
+          'https://store.is.autonavi.com/showpic/5afb5fd8ef933bdb5ab5f382214e19dd',
+          'https://store.is.autonavi.com/showpic/ade2552ee00763459dd5bd38303588f0',
+          'https://store.is.autonavi.com/showpic/52a01dab266a07dbbb76d321d83d86a9'
+        ],
         name: '全季酒店（红湖东路）',
         shortName: '全季酒店',
         coord: [119.795836, 25.487159],
@@ -122,6 +133,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd1-2',
+        photos: [
+          'https://store.is.autonavi.com/showpic/860fda0802f5c2db0000003386528098?type=pic',
+          'https://aos-comment.amap.com/B0FFIKGXN3/comment/content_media_external_file_1000013340_ss__1756704623042_75380453.jpg',
+          'https://aos-comment.amap.com/B0FFIKGXN3/comment/118ADB22_98EE_497E_BD2A_3CFE9D7CCA28_L0_001_1500_200_1767274180916_34096171.jpg',
+          'https://store.is.autonavi.com/showpic/bc235577883842dd0000004611342474?type=pic'
+        ],
         name: '龙凤头海滨沙滩',
         shortName: '龙凤头沙滩',
         coord: [119.809570, 25.506202],
@@ -133,6 +150,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd1-3',
+        photos: [
+          'https://aos-comment.amap.com/B0GRZA919R/comment/content_media_external_file_1000009025_ss__1751017749559_39704283.jpg',
+          'https://store.is.autonavi.com/showpic/2426bea4fa4393bf0000002402518461?type=pic',
+          'https://aos-comment.amap.com/B0GRZA919R/comment/047bf1bf3c51d257c02a7dfde8835605_2048_2048_80.jpg'
+        ],
         name: '岭上·海岛菜（团建晚餐）',
         shortName: '岭上海岛菜',
         coord: [119.835840, 25.598453],
@@ -144,6 +166,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd1-4',
+        photos: [
+          'https://store.is.autonavi.com/showpic/5afb5fd8ef933bdb5ab5f382214e19dd',
+          'https://store.is.autonavi.com/showpic/ade2552ee00763459dd5bd38303588f0',
+          'https://store.is.autonavi.com/showpic/52a01dab266a07dbbb76d321d83d86a9'
+        ],
         name: '全季酒店（夜间返程大本营）',
         shortName: '全季返程',
         coord: [119.795836, 25.487159],
@@ -168,6 +195,12 @@ export const DAILY_ROUTES = {
     spots: [
       {
         id: 'd2-1',
+        photos: [
+          'https://store.is.autonavi.com/showpic/d7dc8a924417a1d2ec5060a6efb68327',
+          'https://store.is.autonavi.com/showpic/0919dfef096017db76a68a263016d671',
+          'https://store.is.autonavi.com/showpic/ec161d551ba5bbc5f355df3a144da594',
+          'https://aos-comment.amap.com/B0FFKPTJ8L/comment/25D3F197_A465_4755_AE22_B3A9CDFC45CD_L0_001_1500_2000_1726307155425_87571999.jpg'
+        ],
         name: '仙人井景区',
         shortName: '仙人井',
         coord: [119.870136, 25.549806],
@@ -179,6 +212,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd2-2',
+        photos: [
+          'https://aos-comment.amap.com/BV11081672/comment/A209C21E_5CAB_4523_A650_2CC0A918BC14_L0_001_1500_200_1767322215079_64208198.jpg',
+          'https://aos-comment.amap.com/BV11081672/comment/content_media_external_file_1000049371_ss__1756527289943_33461993.jpg',
+          'https://aos-comment.amap.com/BV11081672/comment/176996304117_1769963042532_43653596.jpg',
+          'https://aos-comment.amap.com/B0G23AAFP0/comment/content_media_external_file_1000026287_ss__1771645545851_19245386.jpg'
+        ],
         name: '北港文创村',
         shortName: '北港村',
         coord: [119.828079, 25.584700],
@@ -190,6 +229,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd2-3',
+        photos: [
+          'https://store.is.autonavi.com/showpic/bedd63883d6ae83c0000005187674240?type=pic',
+          'https://store.is.autonavi.com/showpic/6b2bb49448c64a990000002308400792?type=pic',
+          'https://store.is.autonavi.com/showpic/355020d36702b07c0000002501966738?type=pic',
+          'https://aos-comment.amap.com/B0LUAMJ3Y1/comment/content_media_external_file_25415_ss__1757040589459_66370252.jpg'
+        ],
         name: '镜沙黑石滩',
         shortName: '镜沙黑石滩',
         coord: [119.809925, 25.614225],
@@ -201,6 +246,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd2-4',
+        photos: [
+          'https://store.is.autonavi.com/showpic/f9f5b11edd64bd170000003057722363?type=pic',
+          'https://store.is.autonavi.com/showpic/cf16f792e6b3b53a0000001201056417?type=pic',
+          'https://store.is.autonavi.com/showpic/6fb4a0bd47a3cf500000005539820171?type=pic',
+          'https://aos-comment.amap.com/B0G1LC7M9T/headerImg/cf0cda7f3a34a8c329058958bb9d6645_2048_2048_80.jpg'
+        ],
         name: '北部生态廊道F3',
         shortName: '北部生态廊道',
         coord: [119.768536, 25.652585],
@@ -212,6 +263,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd2-5',
+        photos: [
+          'https://store.is.autonavi.com/showpic/f1501d405eaf40fb0000005521516948?type=pic',
+          'https://store.is.autonavi.com/showpic/b8f244971c241f560000003600042694?type=pic',
+          'https://aos-comment.amap.com/comment/20260306-a7d0dd93a7a9afdd02b3f285-19wp4LhTa7884c9RUFGgeK.jpg',
+          'https://aos-comment.amap.com/B0FFFF7S4Y/comment/content_media_external_file_1000030164_ss__1751100571665_48130223.jpg'
+        ],
         name: '长江澳风车落日',
         shortName: '长江澳落日',
         coord: [119.773085, 25.632355],
@@ -223,6 +280,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd2-6',
+        photos: [
+          'https://store.is.autonavi.com/showpic/5afb5fd8ef933bdb5ab5f382214e19dd',
+          'https://store.is.autonavi.com/showpic/ade2552ee00763459dd5bd38303588f0',
+          'https://store.is.autonavi.com/showpic/52a01dab266a07dbbb76d321d83d86a9'
+        ],
         name: '全季酒店（夜间返程大本营）',
         shortName: '全季返程',
         coord: [119.795836, 25.487159],
@@ -247,6 +309,12 @@ export const DAILY_ROUTES = {
     spots: [
       {
         id: 'd3-1',
+        photos: [
+          'https://store.is.autonavi.com/showpic/7d63a9a65fc22e190000003339064487?type=pic',
+          'https://store.is.autonavi.com/showpic/3f42bd2af91686f70000003339054814?type=pic',
+          'https://store.is.autonavi.com/showpic/5fb050e5e8ec59260000003339070335?type=pic',
+          'https://store.is.autonavi.com/showpic/58c06bd49f7e6c6c8da65cfd0ad9d0d7'
+        ],
         name: '龙王头日出',
         shortName: '龙王头日出',
         coord: [119.809570, 25.506202],
@@ -258,6 +326,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd3-3',
+        photos: [
+          'https://store.is.autonavi.com/showpic/edd39223fa052b13d0996d971d6c18cf',
+          'https://store.is.autonavi.com/showpic/7b880f18caf7fda9add19d1980f73c9f',
+          'https://store.is.autonavi.com/showpic/d3ba0920453fd7524a3ddf5c9ae2ee4e',
+          'https://aos-comment.amap.com/B0HG4RS6GX/comment/content_media_external_file_1000053015_ss__1764143235268_16583418.jpg'
+        ],
         name: '猴研岛（68海里景区）',
         shortName: '68海里景区',
         coord: [119.852336, 25.458999],
@@ -269,6 +343,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd3-4',
+        photos: [
+          'https://store.is.autonavi.com/showpic/cc91fb7273b190ac0000002595526950',
+          'https://store.is.autonavi.com/showpic/bebfb9874f3067ee0000002595550785',
+          'https://store.is.autonavi.com/showpic/dfaff7bad144f61b0000002595594492',
+          'https://store.is.autonavi.com/showpic/dcb22e9f84ea7971e25923c232d9e725'
+        ],
         name: '澳前镇海鲜午餐',
         shortName: '澳前海鲜',
         coord: [119.851609, 25.458879],
@@ -280,6 +360,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd3-5',
+        photos: [
+          'https://store.is.autonavi.com/showpic/c61ce1eb63ef4481dbbcf5d3f387fd27',
+          'https://store.is.autonavi.com/showpic/42bc0a358f136c5e1d33ca9408997003',
+          'https://store.is.autonavi.com/showpic/ac78dffe9ae701f6eb809008ffe5b740',
+          'https://aos-comment.amap.com/B0FFKV9G87/comment/content_media_external_file_12199_ss__1762385084708_75786309.jpg'
+        ],
         name: '大福湾白色长桥',
         shortName: '大福湾长桥',
         coord: [119.767799, 25.412703],
@@ -291,6 +377,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd3-6',
+        photos: [
+          'https://store.is.autonavi.com/showpic/e3530d9f8a828ce894f1f9489071c28a',
+          'https://store.is.autonavi.com/showpic/440d585d20bac08c2e557850bdeb8d06',
+          'https://store.is.autonavi.com/showpic/ab519df0c09198ad361fa8d483f7a0b3'
+        ],
         name: '坛南湾（田美澳）',
         shortName: '坛南湾白沙',
         coord: [119.763854, 25.438573],
@@ -302,6 +393,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd3-7',
+        photos: [
+          'https://store.is.autonavi.com/showpic/5afb5fd8ef933bdb5ab5f382214e19dd',
+          'https://store.is.autonavi.com/showpic/ade2552ee00763459dd5bd38303588f0',
+          'https://store.is.autonavi.com/showpic/52a01dab266a07dbbb76d321d83d86a9'
+        ],
         name: '全季酒店（夜间返程大本营）',
         shortName: '全季返程',
         coord: [119.795836, 25.487159],
@@ -326,6 +422,12 @@ export const DAILY_ROUTES = {
     spots: [
       {
         id: 'd4-1',
+        photos: [
+          'https://store.is.autonavi.com/showpic/0d0fc730c44bd280ab448319475c8960',
+          'https://store.is.autonavi.com/showpic/435864d2899529ee15fe4447a84df8b2',
+          'https://store.is.autonavi.com/showpic/d6eb8c5a58247421643a715501b7998a',
+          'https://store.is.autonavi.com/showpic/c7bceada8e7cc7cad1a34f06f9f56343'
+        ],
         name: '海坛中路传统早市',
         shortName: '传统早市',
         coord: [119.789823, 25.506244],
@@ -337,6 +439,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd4-2',
+        photos: [
+          'https://store.is.autonavi.com/showpic/3067bfec39437a17ea9acef08453cc18',
+          'https://store.is.autonavi.com/showpic/fee372df82fa0669533dfb134f72bf0a',
+          'https://store.is.autonavi.com/showpic/8d512f1e247c589db56a088c22f24bee'
+        ],
         name: '老城区特产超市',
         shortName: '特产超市',
         coord: [119.797203, 25.500561],
@@ -348,6 +455,11 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd4-3',
+        photos: [
+          'https://store.is.autonavi.com/showpic/5afb5fd8ef933bdb5ab5f382214e19dd',
+          'https://store.is.autonavi.com/showpic/ade2552ee00763459dd5bd38303588f0',
+          'https://store.is.autonavi.com/showpic/52a01dab266a07dbbb76d321d83d86a9'
+        ],
         name: '全季酒店（退房取行李）',
         shortName: '全季退房',
         coord: [119.795836, 25.487159],
@@ -359,6 +471,12 @@ export const DAILY_ROUTES = {
       },
       {
         id: 'd4-4',
+        photos: [
+          'https://store.is.autonavi.com/showpic/1119fea3577146440000002536416924?type=pic',
+          'https://store.is.autonavi.com/showpic/1c67aec9de1b0c6cbd38053297e1a7d7',
+          'https://store.is.autonavi.com/showpic/ac5c6bf7f7e291dc0000003072426325?type=pic',
+          'https://aos-comment.amap.com/B0H6DM73TV/comment/content_media_external_images_media_2255_ss__1765887027504_93303404.jpg'
+        ],
         name: '平潭站（打车落客点）',
         shortName: '平潭站返程',
         coord: [119.779869, 25.546817],

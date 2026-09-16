@@ -135,24 +135,34 @@
           <div
             v-for="(spot, idx) in currentDayData.spots"
             :key="spot.id || idx"
-            class="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-100/90 hover:border-slate-300 transition cursor-pointer flex items-center justify-between"
+            class="p-2 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-slate-100/90 hover:border-slate-300 transition cursor-pointer flex items-center justify-between gap-2"
             @click="handleSpotSelect(idx)"
           >
-            <div class="flex items-center gap-2 min-w-0">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <img
+                v-if="spot.photos && spot.photos[0]"
+                :src="spot.photos[0]"
+                :alt="spot.name"
+                class="w-11 h-11 rounded-lg object-cover shrink-0 shadow-2xs border border-slate-200"
+                loading="lazy"
+              />
               <span
-                class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-extrabold text-white shrink-0"
+                v-else
+                class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-extrabold text-white shrink-0"
                 :style="{ backgroundColor: currentDayData.color }"
               >
                 {{ idx + 1 }}
               </span>
-              <span class="text-xs font-bold text-slate-800 truncate flex items-center gap-1">
-                <span>{{ spot.icon }}</span>
-                <span>{{ spot.name }}</span>
-              </span>
-              <span class="text-[10px] text-slate-400 truncate hidden sm:inline">{{ spot.tag }}</span>
+              <div class="min-w-0">
+                <div class="text-xs font-bold text-slate-800 truncate flex items-center gap-1">
+                  <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-1 py-0.2 rounded border border-sky-200 shrink-0">第{{ idx + 1 }}站</span>
+                  <span class="truncate">{{ spot.name }}</span>
+                </div>
+                <p class="text-[10px] text-slate-400 truncate mt-0.5">{{ spot.tag }}</p>
+              </div>
             </div>
             <div class="flex items-center gap-1 text-[11px] text-sky-600 font-bold shrink-0">
-              <span>看分支</span>
+              <span>看实景</span>
               <span>➔</span>
             </div>
           </div>
@@ -191,6 +201,42 @@
           <span>🗺️</span>
           <span>全天路线</span>
         </button>
+      </div>
+
+      <!-- 景区真实实景照片轮播 (带自动播放、手势滑动与点击放大预览) -->
+      <div
+        v-if="activeSpot?.photos && activeSpot.photos.length > 0"
+        class="rounded-xl overflow-hidden shadow-xs relative bg-slate-900 aspect-[16/9] max-h-48 w-full border border-slate-200/80"
+      >
+        <van-swipe
+          :autoplay="3500"
+          lazy-render
+          class="w-full h-full"
+          indicator-color="#f97316"
+        >
+          <van-swipe-item
+            v-for="(photoUrl, pIdx) in activeSpot.photos"
+            :key="pIdx"
+            class="w-full h-full relative cursor-pointer"
+            @click="previewSpotPhotos(pIdx)"
+          >
+            <img
+              :src="photoUrl"
+              :alt="activeSpot.name"
+              class="w-full h-full object-cover select-none"
+              loading="lazy"
+            />
+            <!-- 左下角景点名称胶囊 -->
+            <div class="absolute bottom-2 left-2 bg-slate-900/65 backdrop-blur-xs text-white text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
+              <span>📷</span>
+              <span>{{ activeSpot.shortName || activeSpot.name }} 实景</span>
+            </div>
+            <!-- 右下角照片张数指示器 -->
+            <div class="absolute bottom-2 right-2 bg-slate-900/65 backdrop-blur-xs text-white text-[10px] px-2 py-0.5 rounded-full font-medium">
+              {{ pIdx + 1 }}/{{ activeSpot.photos.length }}
+            </div>
+          </van-swipe-item>
+        </van-swipe>
       </div>
 
       <!-- 站点玩法说明与高德导航直达 -->
@@ -293,6 +339,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { showImagePreview } from 'vant';
 import {
   DAILY_ROUTES,
   VERIFIED_HOTEL_COORD,
@@ -839,6 +886,16 @@ onBeforeUnmount(() => {
     amapInstance = null;
   }
 });
+
+
+function previewSpotPhotos(startIdx = 0) {
+  if (!activeSpot.value?.photos || !activeSpot.value.photos.length) return;
+  showImagePreview({
+    images: activeSpot.value.photos,
+    startPosition: startIdx,
+    closeable: true
+  });
+}
 
 defineExpose({
   handleDaySelect,

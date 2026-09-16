@@ -371,14 +371,14 @@ function initMap() {
     amapInstance = new window.AMap.Map('amap-vue-container', {
       zoom: PINGTAN_ZOOM,
       center: PINGTAN_CENTER,
-      viewMode: '2D',          // 纯净平面视角，杜绝透视形变
-      pitch: 0,                // 俯仰角度锁死 0 度
+      viewMode: '3D',          // 保持立体 3D 视角，绝不退化为扁平
+      pitch: 25,               // 保持 25 度立体仰角
       rotation: 0,             // 正北朝上
-      rotateEnable: false,     // 彻底禁止地图旋转！彻底解决移动端双指缩放旋转的 Bug
-      pitchEnable: false,      // 彻底禁止倾斜
-      touchZoomRotate: false,  // 彻底禁止双指缩放联动旋转
-      touchZoom: true,         // 允许双指放大缩小
-      dragEnable: true,        // 允许单指平移
+      pitchEnable: false,      // 彻底锁定俯仰角！双指上划/下划绝不改变倾斜角度！
+      rotateEnable: false,     // 彻底锁定旋转！双指缩放绝不旋转地图！
+      touchZoomRotate: false,  // 彻底禁止双指缩放时联动旋转
+      touchZoom: true,         // 允许正常的双指缩放大小
+      dragEnable: true,        // 允许单指平移拖拽
       zoomEnable: true,        // 允许缩放
       mapStyle: 'amap://styles/fresh'
     });
@@ -389,7 +389,7 @@ function initMap() {
 
     amapInstance.on('complete', () => {
       amapInstance.setRotation(0);
-      amapInstance.setPitch(0);
+      amapInstance.setPitch(25);
       handleDaySelect(currentDayKey.value);
     });
 
@@ -406,7 +406,7 @@ function ensureMapInit() {
     nextTick(() => {
       amapInstance.resize();
       amapInstance.setRotation(0);
-      amapInstance.setPitch(0);
+      amapInstance.setPitch(25);
       if (currentSpotIndex.value === -1) {
         fitCurrentDayViewport();
       } else if (segmentPolyline) {
@@ -601,7 +601,7 @@ function updateSpotMarkersHighlight(activeIdx) {
 function fitCurrentDayViewport() {
   if (!amapInstance) return;
   amapInstance.setRotation(0);
-  amapInstance.setPitch(0);
+  amapInstance.setPitch(25);
   const overlays = currentMarkers.map(item => item.marker).filter(Boolean);
   if (currentPolyline) overlays.push(currentPolyline);
   if (hotelMarker) overlays.push(hotelMarker);
@@ -616,7 +616,7 @@ function fitCurrentDayViewport() {
 function fitBranchViewport() {
   if (!amapInstance) return;
   amapInstance.setRotation(0);
-  amapInstance.setPitch(0);
+  amapInstance.setPitch(25);
   if (segmentPolyline) {
     amapInstance.setFitView([segmentPolyline], false, [50, 40, 40, 40]);
   } else if (activeSpot.value && isValidCoord(activeSpot.value.coord)) {
@@ -628,7 +628,7 @@ function fitBranchViewport() {
 function fitPingtanCounty() {
   if (!amapInstance) return;
   amapInstance.setRotation(0);
-  amapInstance.setPitch(0);
+  amapInstance.setPitch(25);
   try {
     const bounds = new window.AMap.Bounds(PINGTAN_BOUNDS[0], PINGTAN_BOUNDS[1]);
     amapInstance.setBounds(bounds);
@@ -641,7 +641,7 @@ function fitPingtanCounty() {
 function focusHotelBasecamp() {
   if (!amapInstance) return;
   amapInstance.setRotation(0);
-  amapInstance.setPitch(0);
+  amapInstance.setPitch(25);
   amapInstance.setCenter(VERIFIED_HOTEL_COORD);
   amapInstance.setZoom(15);
   segmentStatusText.value = '🏨 全季酒店（平潭红湖东路32号）：团队大本营驻地';
@@ -792,7 +792,7 @@ async function loadRouteLeg(modeKey, from, to, fromIdx) {
       });
       amapInstance.add(segmentPolyline);
       amapInstance.setRotation(0);
-      amapInstance.setPitch(0);
+      amapInstance.setPitch(25);
       amapInstance.setFitView([segmentPolyline], false, [50, 40, 40, 40]);
     }
 

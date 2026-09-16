@@ -38,7 +38,7 @@
       <div class="relative h-[320px] sm:h-[360px] w-full bg-slate-100">
         <div id="amap-vue-container" class="w-full h-full"></div>
 
-        <!-- 右上角快捷操作工具胶囊 (极简纯净，仅保留卫星切换与最佳视野) -->
+        <!-- 右上角快捷操作工具胶囊 (卫星切换、指北重置与最佳视野) -->
         <div class="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5">
           <!-- 卫星底图切换 -->
           <button
@@ -51,11 +51,23 @@
             <span>{{ isSatellite ? '矢量' : '卫星' }}</span>
           </button>
 
+          <!-- 指北针 / 一键恢复正北 (当用户旋转地图时出现) -->
+          <button
+            v-if="mapRotation !== 0"
+            type="button"
+            class="bg-white/95 backdrop-blur-md px-2 py-1.5 rounded-lg border border-orange-200 text-xs font-bold text-orange-600 shadow-sm hover:bg-white active:scale-95 transition flex items-center gap-1 cursor-pointer animate-fade-in"
+            title="点击重置为正北朝上"
+            @click="resetNorth"
+          >
+            <span class="inline-block transition-transform duration-200 text-xs" :style="{ transform: `rotate(${-mapRotation}deg)` }">🧭</span>
+            <span>正北</span>
+          </button>
+
           <!-- 视角重置与自适应 -->
           <button
             type="button"
             class="bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-sky-700 shadow-sm hover:bg-white active:scale-95 transition flex items-center gap-1 cursor-pointer"
-            title="自适应最佳视野"
+            title="自适应最佳视野并重置正北"
             @click="fitCurrentDayViewport"
           >
             <span>🎯</span>
@@ -359,6 +371,7 @@ const daysList = [
   { id: 'd4', label: 'Day 4', theme: '早市返程', summary: '早市➔特产➔退房➔高铁站', color: '#d97706' }
 ];
 
+const mapRotation = ref(0);
 const currentDayKey = ref('d1');
 // -1 表示全天路线总览模式；>= 0 表示选中具体的单站点/单分支路线
 const currentSpotIndex = ref(-1);
@@ -421,13 +434,17 @@ function initMap() {
       viewMode: '3D',          // 保持立体 3D 视角，绝不退化为扁平
       pitch: 25,               // 保持 25 度立体仰角
       rotation: 0,             // 正北朝上
-      pitchEnable: false,      // 彻底锁定俯仰角！双指上划/下划绝不改变倾斜角度！
-      rotateEnable: false,     // 彻底锁定旋转！双指缩放绝不旋转地图！
-      touchZoomRotate: false,  // 彻底禁止双指缩放时联动旋转
+      rotateEnable: true,      // 允许绕 Z 轴平面旋转地图！
+      touchZoomRotate: true,   // 允许双指旋转手势联动
+      pitchEnable: false,      // 彻底锁定俯仰角！双指上划/下划绝不改变倾斜角度，绝不变形！
       touchZoom: true,         // 允许正常的双指缩放大小
       dragEnable: true,        // 允许单指平移拖拽
       zoomEnable: true,        // 允许缩放
       mapStyle: 'amap://styles/fresh'
+    });
+
+    amapInstance.on('rotatechange', () => {
+      mapRotation.value = Math.round(amapInstance.getRotation() || 0);
     });
 
     if (window.AMap.Scale) {
@@ -645,6 +662,13 @@ function updateSpotMarkersHighlight(activeIdx) {
 }
 
 // 聚焦当天全景视野 (包含全部打卡点、大本营与全天闭环折线)
+
+function resetNorth() {
+  if (!amapInstance) return;
+  amapInstance.setRotation(0);
+  mapRotation.value = 0;
+}
+
 function fitCurrentDayViewport() {
   if (!amapInstance) return;
   amapInstance.setRotation(0);
